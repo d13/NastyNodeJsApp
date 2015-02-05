@@ -1,0 +1,29 @@
+{% extends './layouts/default.html' %}
+
+{% block title %}{% parent %} | Workbench{% endblock %}
+
+{% block styles %}
+{% parent %}
+{% endblock %}
+
+{% block scripts-head %}
+{% parent %}
+{% include "./utils/tracking.html" %}
+{% if devMode %}
+<script data-main="/scripts/workbench/main" src="/scripts/require-2.1.14.min.js"></script>
+{% else %}
+<script data-main="/scripts/workbench-built/main" src="/scripts/require-2.1.14.min.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block body-classname %}workbench-root{% endblock %}
+
+{% block content %}
+<div class="header" data-region="workbench-header"></div>
+<div class="controls" data-region="workbench-controls"></div>
+<div class="canvas" data-region="workbench-canvas">
+    <p>Loading Workbench...</p>
+</div>
+
+{% include "./templates/header.html" %}
+{% endblock %}

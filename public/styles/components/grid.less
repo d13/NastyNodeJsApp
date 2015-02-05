@@ -1,0 +1,35 @@
+/* -------------------------------------------------
+ * LAYOUT / GRID
+ * ------------------------------------------------- */
+
+.container {
+  .grid-create-container();
+}
+
+.row {
+  .grid-create-row();
+}
+
+
+.grid-create-base-columns();
+
+// NO-GUTTERS
+.no-gutter [class^="@{grid-column-prefix}-"], // on wrapper or row
+.no-gutter [class*=" @{grid-column-prefix}-"],
+.no-gutter[class^="@{grid-column-prefix}-"], // on column
+.no-gutter[class*=" @{grid-column-prefix}-"] {
+  .grid-gutters(padding, 0);
+}
+.no-gutter .row .row, // on wrapper
+.no-gutter.row .row,  // on row
+.no-gutter[class^="@{grid-column-prefix}-"] .row, // on column
+.no-gutter[class*=" @{grid-column-prefix}-"] .row {
+  .grid-gutters(margin, 0);
+}
+
+.grid-create-full();
+
+/*
+ * "CLEAN-UP ON ISLE LESS THAN NINE"
+ */
+.grid-grid-compatibility();

@@ -1,0 +1,12 @@
+
+// TODO: should this be namespaced or just BEM'd
+.bem-e(@name, @styles) {
+  &__@{name} {
+    @styles();
+  }
+}
+.bem-m(@name, @styles) {
+  &--@{name} {
+    @styles();
+  }
+}

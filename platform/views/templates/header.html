@@ -1,0 +1,31 @@
+{% extends '../layouts/template.html' %}
+
+{% block tmpl-key %}workbench-header{% endblock %}
+{% block tmpl-body %}
+{% raw %}
+<div class="container-fluid">
+    <div class="site-brand site-brand--header">
+        <a class="site-brand__link" href="#">{{brand||'some brand'}}</a>
+    </div>
+    <nav class="site-nav">
+        <ul class="site-nav__list">
+            <li class="site-nav__item">
+                <a href="#one" class="site-nav__link">
+                    {{link1||'Link 1'}}
+                </a>
+            </li>
+            <li class="site-nav__item">
+                <a href="#two" class="site-nav__link">
+                    {{link2||'Link 2'}}
+                </a>
+            </li>
+            <li class="site-nav__item">
+                <a href="#three" class="site-nav__link">
+                    {{link3||'Link 3'}}
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endraw %}
+{% endblock %}

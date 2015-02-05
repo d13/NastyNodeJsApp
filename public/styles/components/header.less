@@ -1,0 +1,29 @@
+.header {
+  background: #333;
+  color: #ccc;
+  line-height: 50px;
+  height: 50px;
+  padding: 0 (@grid-gutter-width / 2);
+
+
+  .site-brand {
+    float: left;
+    .bem-e(link, {
+      color: white;
+    });
+  }
+}
+
+
+.site-nav {
+  text-align: right;
+
+  .bem-e(list, {
+    padding: 0;
+    margin: 0;
+  });
+  .bem-e(item, {
+    list-style: none;
+    display: inline-block;
+  });
+}

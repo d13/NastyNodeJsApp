@@ -1,0 +1,25 @@
+.arrow-even(@size, @color, @direction) {
+  .arrow(@size, @size, @color, @direction);
+}
+
+.arrow(@width, @height, @color, @direction) {
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.arrow(@width, @height, @color, @direction) when (@direction = top) {
+  border-width: 0 @width @height @width;
+  border-color: transparent transparent @color transparent;
+}
+.arrow(@width, @height, @color, @direction) when (@direction = right) {
+  border-width: @width 0 @width @height;
+  border-color: transparent transparent transparent @color;
+}
+.arrow(@width, @height, @color, @direction) when (@direction = bottom) {
+  border-width: @height @width 0 @width;
+  border-color: @color transparent transparent transparent;
+}
+.arrow(@width, @height, @color, @direction) when (@direction = left) {
+  border-width: @width @height @width 0;
+  border-color: transparent @color transparent transparent;
+}

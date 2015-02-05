@@ -1,0 +1,145 @@
+// Portions adapted from:
+// - Twitter Bootstrap: https://github.com/twbs/bootstrap/blob/master/less/mixins/grid-framework.less
+// - Little LESS: https://github.com/d13/little-less/blob/master/little-less.less
+
+.grid-gutters(@prop: padding, @multi: 1) {
+  @amount: (@grid-gutter-width / 2 * @multi);
+  @{prop}-left:  @amount;
+  @{prop}-right: @amount;
+}
+
+.grid-column-base() {
+  position: relative;
+  min-height: 1px;
+  .grid-gutters();
+}
+.grid-container-base() {
+  margin-right: auto;
+  margin-left: auto;
+  .grid-gutters();
+  &:extend(.clearfix all);
+}
+.grid-create-container() {
+  .grid-container-base();
+
+  @media @breakpoint-size-sm {
+    width: @grid-container-sm;
+  }
+  @media @breakpoint-size-md {
+    width: @grid-container-md;
+  }
+  @media @breakpoint-size-lg {
+    width: @grid-container-lg;
+  }
+}
+
+.grid-create-row() {
+  .grid-gutters(margin, -1);
+  &:extend(.clearfix all);
+}
+
+.grid-create-base-columns() {
+  // Common styles for all sizes of grid columns, widths 1-12
+  .col(@index) when (@index = 1) { // initial
+    @item: ~".@{grid-column-prefix}-xs-@{index}, .@{grid-column-prefix}-sm-@{index}, .@{grid-column-prefix}-md-@{index}, .@{grid-column-prefix}-lg-@{index}";
+    .col((@index + 1), @item);
+  }
+  .col(@index, @list) when (@index =< @grid-columns) { // general; "=<" isn't a typo
+    @item: ~".@{grid-column-prefix}-xs-@{index}, .@{grid-column-prefix}-sm-@{index}, .@{grid-column-prefix}-md-@{index}, .@{grid-column-prefix}-lg-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @grid-columns) { // terminal
+    @{list} {
+      .grid-column-base();
+    }
+  }
+  .col(1); // kickstart it
+}
+.grid-create-float-columns(@size) when not (@size = "") {
+  .col(@index) when (@index = 1) { // initial
+    @item: ~".@{grid-column-prefix}-@{size}-@{index}";
+    .col((@index + 1), @item);
+  }
+  .col(@index, @list) when (@index =< @grid-columns) { // general
+    @item: ~".@{grid-column-prefix}-@{size}-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @grid-columns) { // terminal
+    @{list} {
+      float: left;
+    }
+  }
+  .col(1); // kickstart it
+}
+// FIXME: sizes used should be configurable?
+.grid-create-float-columns(@size: "") when (default()) {
+  // Common styles for all sizes of grid columns, widths 1-12
+  .col(@index) when (@index = 1) { // initial
+    @item: ~".@{grid-column-prefix}-xs-@{index}, .@{grid-column-prefix}-sm-@{index}, .@{grid-column-prefix}-md-@{index}, .@{grid-column-prefix}-lg-@{index}";
+    .col((@index + 1), @item);
+  }
+  .col(@index, @list) when (@index =< @grid-columns) { // general; "=<" isn't a typo
+    @item: ~".@{grid-column-prefix}-xs-@{index}, .@{grid-column-prefix}-sm-@{index}, .@{grid-column-prefix}-md-@{index}, .@{grid-column-prefix}-lg-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @grid-columns) { // terminal
+    @{list} {
+      float: left;
+    }
+  }
+  .col(1); // kickstart it
+}
+
+// FIXME: add case to use handle name
+.grid-column(@index, @size, @type: width, @name: "") {
+  .@{grid-column-prefix}-@{size}-@{index} {
+    @{type}: percentage((@index / @grid-columns));
+  }
+}
+.grid-column-all-sizes(@index) {
+  .@{grid-column-prefix}-xs-@{index},
+  .@{grid-column-prefix}-sm-@{index},
+  .@{grid-column-prefix}-md-@{index},
+  .@{grid-column-prefix}-lg-@{index} {
+    width: percentage((@index / @grid-columns));
+    float: left;
+  }
+}
+
+.grid-create-columns(@index, @size) when (@index >= 0) and not (@size = "") {
+  & when (@index > 0) {
+    .grid-column(@index, @size);
+  }
+
+  .grid-create-columns((@index - 1), @size);
+}
+.grid-create-columns(@index, @size: "") when (@index >= 0) and (@size = "") {
+  & when (@index > 0) {
+    .grid-column-all-sizes(@index);
+  }
+
+  .grid-create-columns((@index - 1), @size);
+}
+
+.grid-create-size(@size) {
+  .grid-create-float-columns(@size);
+  .grid-create-columns(@grid-columns, @size);
+}
+.grid-create-breakpoint(@size) {
+  @breakpoint: ~"breakpoint-size-@{size}";
+  @media @@breakpoint {
+    .grid-create-size(@size);
+  }
+}
+.grid-create-full() {
+  .grid-create-breakpoint(xs);
+  .grid-create-breakpoint(sm);
+  .grid-create-breakpoint(md);
+  .grid-create-breakpoint(lg);
+}
+.grid-grid-compatibility() {
+  .no-mediaquery {
+    //.grid-create-float-columns();
+    .grid-create-columns(@grid-columns);
+  }
+}

@@ -5,7 +5,7 @@ module.exports = function(router) {
             next();
         })
         .get(function(req, res, next){
-            res.render('index', {
+            res.render('workbench', {
                 title: 'Workbench Login'
             });
         });
